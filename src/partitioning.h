@@ -25,6 +25,8 @@
 #include <map>
 #include <set>
 #include "util_type.h"
+#include "gerbobj.h"
+#include "gerbobj_poly.h"
 
 struct ltint
 {

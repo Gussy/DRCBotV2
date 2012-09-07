@@ -92,6 +92,11 @@ public:
 	sp_gerber_object_layer current_layer;
 	
 	//Part2D<GerbObj*> lines;
+	int last_set;
+	std::set <GErr*> errors;
+	std::set <net_group*>  groups;
+	std::set <GerbObj*> all;
+	Part2D<GerbObj*> lines;
 };
 
 
