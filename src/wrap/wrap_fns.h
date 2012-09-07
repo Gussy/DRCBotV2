@@ -23,6 +23,8 @@
 #ifndef _WRAP_FNS_H_
 #define _WRAP_FNS_H_
 
+#include <Python.h>
+
 void aperture_wrap(void);
 void gerberParserWrap(void);
 void gcodeInterpWrap(void);

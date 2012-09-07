@@ -1,4 +1,3 @@
-
 SRCS=src/gerber_parse.cpp src/wrap/gerber_parse_wrap.cpp src/wrap/aperture_wrap.cpp \
 	src/util.cpp src/fileio.cpp src/macro_parser.cpp src/macro_vm.cpp \
 	src/gerb_script_util.cpp src/util_type.cpp src/gerbobj_line.cpp src/gerbobj_poly.cpp \
@@ -8,17 +7,17 @@ OBJS=$(patsubst %.cpp,build/%.o, $(SRCS) )
 
 OS = $(shell uname)
 
-CPPFLAGS = `python-config --includes` -g -Isrc/ -Wall -Werror -Wno-unused
+CPPFLAGS = -fPIC `python-config --includes` -g -Isrc/ -Wall -Werror -Wno-unused
 
 ifeq ($(OS),Darwin) 
 	CPPFLAGS += -Wnewline-eof
 endif
 
-LDFLAGS = -lboost_python `python-config --ldflags` 
+LDFLAGS = -lboost_python `python-config --ldflags`
 
 _gerber_utils.so: $(OBJS)
 	@echo "LD   $@"
-	@g++ $(LDFLAGS) $^ --shared -o $@
+	g++ $^ --shared -o $@ $(LDFLAGS)
 	
 build/%.o: %.cpp
 	@echo "CXX	$<"
