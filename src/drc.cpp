@@ -19,12 +19,7 @@
  *
  */
 
-#include "gcode_interp.h"
 #include "drc.h"
-#include "groupize.h"
-#include "polymath.h"
-
-#include <math.h>
 
 void initDRC(struct drcSettings * s)
 {
@@ -32,14 +27,20 @@ void initDRC(struct drcSettings * s)
 	s->minTraceSpace = 0.0069;
 }
 
-bool doDRC(Vector_Outp * v, struct drcSettings * s, bool drawErrors)
+bool doDRC(sp_Vector_Outp v, struct drcSettings * s)
 {
 	bool success = true;
-	
-	//printf("lengthdb size %d\n", v->obj_dist_lut.size());
+
+	if (!v->current_layer)
+	{
+		sp_gerber_object_layer s = sp_gerber_object_layer(new gerber_object_layer);
+		v->layers.push_back(s);
+		v->current_layer = s;
+	}
+
 	long hits =0, misses = 0;
-	std::set<GerbObj *>::iterator it = v->all.begin();
-	for (;it!=v->all.end();it++)
+	std::list<GerbObj>::iterator it = v->current_layer->draws.begin();
+	for (;it!=v->current_layer->draws.end();it++)
 	{
 		double width;
 		GerbObj * g = *it;
@@ -62,8 +63,8 @@ bool doDRC(Vector_Outp * v, struct drcSettings * s, bool drawErrors)
 	}
 	
 	// now check for distance between groups
-	it = v->all.begin();
-	for (;it!=v->all.end();it++)
+	it = v->current_layer->draws.begin();
+	for (;it!=v->current_layer->draws.end();it++)
 	{
 		
 		GerbObj_Line * g = (GerbObj_Line*)*it;

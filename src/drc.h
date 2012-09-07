@@ -21,6 +21,12 @@
 
 #ifndef _DRC_H_
 
+#include "gcode_interp.h"
+#include "groupize.h"
+#include "polymath.h"
+#include "gerbobj_line.h"
+#include <math.h>
+
 struct drcSettings
 {
 	float minTraceWidth;
@@ -28,8 +34,8 @@ struct drcSettings
 	
 };
 
-bool doDRC(Vector_Outp * v, struct drcSettings * s, bool drawErrors);
+bool doDRC(sp_Vector_Outp v, struct drcSettings * s);
 
 void initDRC(struct drcSettings * s);
 
-#endif _DRC_H_
+#endif
