@@ -22,10 +22,13 @@
 #ifndef _POLYGONIZE_H_
 #define _POLYGONIZE_H_
 
-#include "gcode_interp.h"
+#include "main.h"
 #include "util_type.h"
-
+#include "gcode_interp.h"
+#include "gerbobj_line.h"
+#include "gerbobj_poly.h"
 
 void polygonize_vector_outp(Vector_Outp * v);
+void polygonize_layer(sp_gerber_object_layer layer);
 
 #endif

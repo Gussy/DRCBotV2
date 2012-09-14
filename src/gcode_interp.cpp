@@ -792,5 +792,3 @@ sp_Vector_Outp gcode_run(sp_RS274X_Program gerb)
 
 	return sp_Vector_Outp(pt);
 }
-
-

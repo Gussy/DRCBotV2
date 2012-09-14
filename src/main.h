@@ -23,6 +23,8 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#include <stdio.h>
+
 enum debug_level_t {
 
 	DEBUG_NONE = 0,

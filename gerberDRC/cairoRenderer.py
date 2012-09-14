@@ -16,7 +16,7 @@ def emitGerbObjectCairoPath(context, gerbobj):
 	if len(segs) == 0:
 		return
 		
-	cr.move_to (segs[0].x, segs[0].y);
+	cr.move_to(segs[0].x, segs[0].y);
 	
 	for j in xrange(len(segs[1:])+1):
 			a = segs[j]
@@ -28,7 +28,7 @@ def emitGerbObjectCairoPath(context, gerbobj):
 				radius1 = math.sqrt((a.y - a.cy) ** 2 + (a.x - a.cx) ** 2)
 				cr.arc(a.cx, a.cy, radius1, angle1, angle2)
 			else:
-				cr.line_to (b.x, b.y);
+				cr.line_to(b.x, b.y);
 	
 	cr.close_path()
 

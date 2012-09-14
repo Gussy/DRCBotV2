@@ -28,5 +28,6 @@
 void aperture_wrap(void);
 void gerberParserWrap(void);
 void gcodeInterpWrap(void);
+void polygon_wrap(void);
 #endif
 

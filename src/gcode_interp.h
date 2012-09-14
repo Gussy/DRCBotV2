@@ -36,7 +36,6 @@
 #include "partitioning.h"
 #include "util_type.h"
 
-
 #include "gerber_parse.h"
 #include "gerbobj.h"
 
@@ -81,7 +80,7 @@ struct gerber_object_layer {
 		double x_step, y_step;
 	} step_repeat;
 	
-	std::list <sp_GerbObj> draws;
+	std::list<sp_GerbObj> draws;
 };
 
 typedef boost::shared_ptr<gerber_object_layer> sp_gerber_object_layer;

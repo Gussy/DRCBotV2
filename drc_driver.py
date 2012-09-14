@@ -6,7 +6,7 @@ import gerberDRC.util as GU
 import sys
 path = sys.argv[1]
 
-GD.setDebugLevel(GD.debug_level_t(0))
+GD.setDebugLevel(GD.debug_level_t(3))
 
 f = GD.parseFile(path)
 if not f:
@@ -21,21 +21,19 @@ if not p:
 for n, i in enumerate(p.layers):
 	print "Layer %d: '%s'" % (n,i.name)
 	print "\tpolarity: %s" %(i.polarity)
-	
-	
-	
-import cairo._cairo as cairo
 
+for j in p.layers:
+	GD.booleanOR(j)
+
+import cairo._cairo as cairo
 	
 def createCairoLineCenterLinePath(obj, cr):
 	cr.move_to (obj.sx, obj.sy);
 	cr.line_to (obj.ex, obj.ey);
 		
 def renderGerberFile(rep, cr):
-	
 	cr.push_group()
 	cr.set_operator(cairo.OPERATOR_OVER)
-	
 
 	for j in rep.layers:
 		if (j.polarity == "LP_C"):
@@ -45,8 +43,7 @@ def renderGerberFile(rep, cr):
 
 		for k in j.draws:
 			GD.emitGerbObjectCairoPath(cr, k)
-			
-			cr.stroke()		
+			cr.stroke()
 			
 	cr.pop_group_to_source()
 	cr.paint_with_alpha(1)

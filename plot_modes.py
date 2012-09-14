@@ -13,7 +13,6 @@ class PlotSet(object):
 		self.clipToZeroWidthLines = False
 		self.renderOperator = cairo.OPERATOR_OVER
 
-
 class PlotModeEagle:
 	pass
 	
@@ -122,14 +121,12 @@ class PlotModeRealistic:
 				cr.fill()
 		else:
 			cr.paint()
-
 	
 	def getTransformArgs(self):
 		if self.view == "BOT":
 			return {"mirror_x": True}
 			
 		return {}
-
 
 def getPlotSettings(name):
 	if name.startswith("REALISTIC"): return PlotModeRealistic(name.split("_")[1])

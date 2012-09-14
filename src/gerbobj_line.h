@@ -62,5 +62,5 @@ protected:
 	RenderPoly * createPolyData();
 };
 
+typedef boost::shared_ptr<GerbObj_Line> sp_GerbObj_Line;
 #endif
-

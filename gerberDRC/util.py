@@ -34,7 +34,7 @@ def buildCyclePathsForLineSegments(segments):
 		# since we've already established it is a completely connected loop
 		if all([degree == 2 for degree in subgraph.degree().itervalues()]):
 			# Transversal of the graph starting from a random node
-			ordered = networkx.dfs_preorder(subgraph)
+			ordered = networkx.dfs_preorder_nodes(subgraph)
 			
 			# Path = (x,y) coordinates for each node in the ordered transversal
 			path = [subgraph.node[j]['startpoint'] for j in ordered]
@@ -74,7 +74,7 @@ def identifyLayer(name, convention="PROTEL"):
 	
 	extension = name[1+name.rfind("."):].upper()
 
-	if convention == "PROTEL":
+	if convention.lower() == "protel":
 		protel_layers = {
 			"GML" : ("RS274X","OUTLINE"),
 			"GTP" : ("RS274X","PASTE_TOP"),
@@ -91,3 +91,21 @@ def identifyLayer(name, convention="PROTEL"):
 			
 		if extension in protel_layers:
 			return protel_layers[extension]
+
+	if convention.lower() == "eagle":
+		eagle_layers = {
+			"GBR" : ("RS274X","OUTLINE"),
+			"GTP" : ("RS274X","PASTE_TOP"),
+			"GTO" : ("RS274X","SILKSCREEN_TOP"),
+			"GTS" : ("RS274X","SOLDERMASK_TOP"),
+			"GTL" : ("RS274X","COPPER_TOP"),
+			"GBL" : ("RS274X","COPPER_BOTTOM"),
+			"GBS" : ("RS274X","SOLDERMASK_BOTTOM"),
+			"GBO" : ("RS274X","SILKSCREEN_BOTTOM"),
+			"GBP" : ("RS274X","PASTE_BOTTOM"),
+			"GML" : ("RS274X","MILLING"),
+			"XLN" : ("EXCELLON","DRILL")
+			};
+			
+		if extension in eagle_layers:
+			return eagle_layers[extension]

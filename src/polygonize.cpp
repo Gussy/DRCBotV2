@@ -21,7 +21,8 @@
 
 #include "polygonize.h"
 #define maxsteps 64
-GerbObj_Poly * createPolyForLine(GerbObj_Line * l)
+ 
+sp_GerbObj createPolyForLine(sp_GerbObj_Line l)
 {
 	double dx = l->sx - l->ex;
 	double dy = l->sy - l->ey;
@@ -44,7 +45,7 @@ GerbObj_Poly * createPolyForLine(GerbObj_Line * l)
 
 	// No polygon data for something with 0 width
 	if (l->width == 0)
-		return NULL;
+		return sp_GerbObj();
 
 	GerbObj_Poly * p = new GerbObj_Poly();
 
@@ -67,21 +68,19 @@ GerbObj_Poly * createPolyForLine(GerbObj_Line * l)
 
 	}
 
-
-
-
-	return p;
+	return sp_GerbObj(p);
 }
+
 void polygonize_vector_outp(Vector_Outp * v)
 {
-	std::set <GerbObj*>::iterator i = v->all.begin();
+	#if 0
+	std::set<GerbObj*>::iterator i = v->all.begin();
 	int c = 0;
 	for (;i!=v->all.end();)
 	{
 		GerbObj_Line * line = dynamic_cast<GerbObj_Line*>(*i);
 		if (line)
 		{	
-			
 			// First, remove the line from the map
 			v->all.erase(i++);
 
@@ -97,4 +96,30 @@ void polygonize_vector_outp(Vector_Outp * v)
 		}
 	}
 	printf("Removed %d lines from map\n", c);
+	#endif
+}
+
+void polygonize_layer(sp_gerber_object_layer layer)
+{
+	int count = 0;
+	std::list<sp_GerbObj>::iterator it = layer->draws.begin();
+	for(; it != layer->draws.end();) {
+		sp_GerbObj_Line line = boost::dynamic_pointer_cast<GerbObj_Line>(*it);
+		if(line) {
+			// First, remove the line from the map
+			layer->draws.erase(it++);
+
+			// Create a polygon for the line [no end caps for now]
+			sp_GerbObj p = createPolyForLine(line);
+			if (p)
+				layer->draws.push_back(p);
+			line.reset();
+
+			count++;
+		} else {
+			++it;
+		}
+	}
+
+	DBG_MSG_PF("Removed %d lines from map\n", count);
 }
