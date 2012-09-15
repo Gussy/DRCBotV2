@@ -4,13 +4,11 @@ using namespace gtl;
 
 sp_gerber_object_layer boolean_or(sp_gerber_object_layer layer)
 {
-	#if 1
 	// Boolean OR
 	DBG_MSG_PF("Running boolean OR operation.");
 	BoostPolygonSet polygon_set;
 	polygon_set |= layerToPolygonSet(layer);
 	polygonSetIntoLayer(polygon_set, layer);
-	#endif
 
 	#if 0
 	// Generics testing
@@ -40,8 +38,6 @@ sp_gerber_object_layer boolean_or(sp_gerber_object_layer layer)
 BoostPolygonSet layerToPolygonSet(sp_gerber_object_layer layer)
 {
 	DBG_MSG_PF("draws: %lu", layer->draws.size());
-
-	polygonize_layer(layer);
 
 	// Convert to Boost Polygons
 	BoostPolygon polygon;

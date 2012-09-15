@@ -87,7 +87,7 @@ typedef boost::shared_ptr<gerber_object_layer> sp_gerber_object_layer;
 
 class Vector_Outp {
 public:
-	std::list <sp_gerber_object_layer> layers;
+	std::list<sp_gerber_object_layer> layers;
 	sp_gerber_object_layer current_layer;
 	
 	//Part2D<GerbObj*> lines;

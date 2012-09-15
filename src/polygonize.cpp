@@ -71,32 +71,12 @@ sp_GerbObj createPolyForLine(sp_GerbObj_Line l)
 	return sp_GerbObj(p);
 }
 
-void polygonize_vector_outp(Vector_Outp * v)
+void polygonize_vector_outp(sp_Vector_Outp v)
 {
-	#if 0
-	std::set<GerbObj*>::iterator i = v->all.begin();
-	int c = 0;
-	for (;i!=v->all.end();)
-	{
-		GerbObj_Line * line = dynamic_cast<GerbObj_Line*>(*i);
-		if (line)
-		{	
-			// First, remove the line from the map
-			v->all.erase(i++);
-
-			// Create a polygon for the line [no end caps for now]
-			GerbObj_Poly * p = createPolyForLine(line);
-			if (p)
-				v->all.insert(p);
-			delete line;
-
-			c++;
-		} else {
-			++i;
-		}
+	std::list <sp_gerber_object_layer>::iterator it = v->layers.begin();
+	for (; it != v->layers.end(); ++it)	{
+		polygonize_layer(*it);
 	}
-	printf("Removed %d lines from map\n", c);
-	#endif
 }
 
 void polygonize_layer(sp_gerber_object_layer layer)

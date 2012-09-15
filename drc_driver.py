@@ -22,6 +22,7 @@ for n, i in enumerate(p.layers):
 	print "Layer %d: '%s'" % (n,i.name)
 	print "\tpolarity: %s" %(i.polarity)
 
+GD.polygonizeLayers(p)
 for j in p.layers:
 	GD.booleanOR(j)
 
@@ -48,13 +49,16 @@ def renderGerberFile(rep, cr):
 	cr.pop_group_to_source()
 	cr.paint_with_alpha(1)
 
+def renderBackground(cr):
+	cr.set_operator(cairo.OPERATOR_OVER)
+	cr.set_source_rgba(0, 0, 0, 1)
+	cr.paint()
 	
 srcrect = GU.calculateBoundingRectFromPCBLayers([p], False)
-
-print srcrect
+print "Board dimensions (width, height): %0.2fmm, %0.2fmm" % (srcrect.getWidth()/1000, srcrect.getHeight()/1000)
 
 # Calculate the image size and transform
-(width, height), transform = GD.prepareCairoTransform(1024, srcrect, pad = 50, trim_to_ratio = True)
+(width, height), transform = GD.prepareCairoTransform(2048, srcrect, pad = 50, trim_to_ratio = True)
 
 # Prepare a surface to render onto
 surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
@@ -63,6 +67,7 @@ cr = cairo.Context(surface)
 # Apply the transform to the context
 transform(cr)
 
+renderBackground(cr)
 renderGerberFile(p, cr)
 
 surface.write_to_png(open("out.png", 'w'))

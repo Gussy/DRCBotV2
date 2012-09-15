@@ -28,7 +28,7 @@
 #include "gerbobj_line.h"
 #include "gerbobj_poly.h"
 
-void polygonize_vector_outp(Vector_Outp * v);
+void polygonize_vector_outp(sp_Vector_Outp v);
 void polygonize_layer(sp_gerber_object_layer layer);
 
 #endif
